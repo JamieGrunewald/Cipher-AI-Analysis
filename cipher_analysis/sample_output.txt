@@ -1,0 +1,112 @@
+
+╔══════════════════════════════════════════════════════════════╗
+║                 CYPHERCON 2026  —  LIVE DEMO                 ║
+║             Breaking Ciphers & Fingerprinting AI             ║
+║Jamie Grunewald  |  github.com/JamieGrunewald/cipher-ai-analysis║
+╚══════════════════════════════════════════════════════════════╝
+
+──────────────────────────────────────────────────────────────
+  STEP 1  —  THE CIPHERTEXT
+──────────────────────────────────────────────────────────────
+
+  IGIXDAPVW IBGHTWLYJ HPPDOF. C HXKKFIT KTWW. VWI HXDA LMGXAPV QHFW KH RHD LQ EPTI. ZQL EUYMV P RBMW IPQX YX EWILC. KJPPE GW RAER K YCBI. PYMNS CHE DKZI MY HNPC T QSOT.
+
+  128 alpha characters. Looks random.
+  Let's measure it.
+
+──────────────────────────────────────────────────────────────
+  STEP 2  —  STATISTICAL RECON
+──────────────────────────────────────────────────────────────
+
+  Overall IOC   : 0.04158
+  (English≈0.065, Random≈0.038)
+
+  Chi-Square    : 551.03
+  (Lower = more English-like)
+
+  → IOC is LOW — this is polyalphabetic.
+  → Likely Vigenère with a repeating key.
+
+──────────────────────────────────────────────────────────────
+  STEP 3  —  IOC COLUMN SWEEP  →  KEY LENGTH
+──────────────────────────────────────────────────────────────
+
+  Testing each possible key length k=2..12.
+  For the correct k, each column looks like English (IOC≈0.065).
+
+  k= 2  0.0508  ████████████████████░░░░
+  k= 3  0.0424  █████████████████░░░░░░░
+  k= 4  0.0499  ████████████████████░░░░
+  k= 5  0.0388  ███████████████░░░░░░░░░
+  k= 6  0.0608  ████████████████████████  ← PEAK
+  k= 7  0.0381  ███████████████░░░░░░░░░
+  k= 8  0.0521  █████████████████████░░░
+  k= 9  0.0439  █████████████████░░░░░░░
+  k=10  0.0484  ███████████████████░░░░░
+  k=11  0.0358  ██████████████░░░░░░░░░░
+  k=12  0.0534  █████████████████████░░░
+
+  Key length = 6
+
+──────────────────────────────────────────────────────────────
+  STEP 4  —  FREQUENCY ATTACK ON 6 COLUMNS
+──────────────────────────────────────────────────────────────
+
+  Every 6th character belongs to the same Caesar shift.
+  Chi-square scoring finds the best shift for each column.
+
+  col[0]  shift= 2  key_letter=C  χ²=31.9
+  col[1]  shift=15  key_letter=P  χ²=30.8
+  col[2]  shift= 4  key_letter=E  χ²=28.3
+  col[3]  shift=19  key_letter=T  χ²=19.1
+  col[4]  shift=10  key_letter=K  χ²=21.1
+  col[5]  shift=18  key_letter=S  χ²=13.2
+
+  Recovered alpha key : CPETKS
+
+──────────────────────────────────────────────────────────────
+  STEP 5  —  WORD-LIST CLARIFICATION  (words.txt)
+──────────────────────────────────────────────────────────────
+
+  Chi-square can have near-ties on short columns.
+  We rank the top chi-square alternatives for each column,
+  then score against words.txt — same as Proj_1_Vigenere_Breaker_FINAL.py.
+
+  key=CPETKS  word_hits=37  → GREETINGSPROFESSORFALKENASTRAN...  ← BEST
+  key=VPETKS  word_hits=29  → NREETIUGSPROMESSORMALKENHSTRAN...
+  key=PPETKS  word_hits=27  → TREETIAGSPROSESSORSALKENNSTRAN...
+  key=EPETKS  word_hits=27  → EREETILGSPRODESSORDALKENYSTRAN...
+  key=GPETKS  word_hits=29  → CREETIJGSPROBESSORBALKENWSTRAN...
+  key=NPETKS  word_hits=27  → VREETICGSPROUESSORUALKENPSTRAN...
+
+──────────────────────────────────────────────────────────────
+  STEP 6  —  KEY RECOVERED
+──────────────────────────────────────────────────────────────
+
+  Alpha key   :  CPETKS
+
+  Add back the digits from the original key...
+
+  C  CP  CPE  CPE1  CPE17  CPE170  CPE1704  CPE1704T  CPE1704TK  CPE1704TKS
+
+  ┌─────────────────────────────────────┐
+  │ CPE1704TKS                          │
+  │ Joshua's launch code.               │
+  │ We just found it.                   │
+  └─────────────────────────────────────┘
+
+
+──────────────────────────────────────────────────────────────
+  STEP 7  —  RECOVERED PLAINTEXT
+──────────────────────────────────────────────────────────────
+
+  GREETINGS PROFESSOR FALKEN. A STRANGE GAME. THE ONLY WINNING MOVE IS NOT TO PLAY. HOW ABOUT A NICE GAME OF CHESS. SHALL WE PLAY A GAME. WOULD YOU LIKE TO PLAY A GAME.
+
+
+  We didn't guess the key.
+  We exploited what it couldn't hide.
+
+  ─────────────────────────────────────────────────
+  github.com/JamieGrunewald/cipher-ai-analysis
+  ─────────────────────────────────────────────────
+
