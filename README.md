@@ -75,19 +75,19 @@ The same statistical patterns that expose a repeating cipher key also expose aut
 
 ### Why This Is Hard (And Interesting)
 
-A fair question: if both humans and LLMs write in English, aren't their statistical profiles nearly identical?
+A fair question: if both humans and LLMs write in English, are not their statistical profiles nearly identical?
 
 Yes.  That is exactly what makes it interesting.
 
 Gross statistics like letter frequency and Index of Coincidence will look nearly identical between human and LLM output. You won't separate them with the same tools that crack a Vigenère cipher. The signal is finer than that.
 
-But LLMs don't sample from natural English — they sample from a learned approximation of it, and that approximation has detectable artifacts:
+But LLMs do not sample from natural English — they sample from a learned approximation of it, and that approximation has detectable artifacts:
 
-- **Entropy consistency** — human writing has high local entropy variance (some sentences are predictable, some aren't). LLM output tends to hover in a narrower band.
-- **Token-level patterns** — characteristic preferences at the subword level that don't match human writing distributions, particularly around punctuation, transition phrases, and hedge language.
-- **Perturbation response** — the most promising signal. Slightly perturb a passage and re-score it; LLM output shows a characteristic pull back toward high-probability tokens that human writing doesn't. This is the core idea behind DetectGPT.
+- **Entropy consistency** — human writing has high local entropy variance (some sentences are predictable, some are not). LLM output tends to hover in a narrower band.
+- **Token-level patterns** — characteristic preferences at the subword level that do not match human writing distributions, particularly around punctuation, transition phrases, and hedge language.
+- **Perturbation response** — the most promising signal. Slightly perturb a passage and re-score it; LLM output shows a characteristic pull back toward high-probability tokens that human writing does not. This is the core idea behind DetectGPT.
 
-The bridge from cipher analysis isn't the specific metrics — it's the mindset: measure structure, probe the system, follow the gradient signal. The tools change. The approach doesn't.
+The bridge from cipher analysis is not the specific metrics, but it is  the mindset: measure structure, probe the system, follow the gradient signal. The tools change. The approach does not.
 
 ---
 
