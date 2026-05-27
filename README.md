@@ -1,5 +1,10 @@
 # cipher-ai-analysis
 
+![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+![License: MIT](https://img.shields.io/badge/license-MIT-green)
+![Last Commit](https://img.shields.io/github/last-commit/JamieGrunewald/cipher-ai-analysis)
+![Status](https://img.shields.io/badge/ai__fingerprinting-in%20development-orange)
+
 Statistical analysis tools for classical cipher breaking and AI-generated text fingerprinting.
 
 **Jamie Grunewald** | [LinkedIn](https://www.linkedin.com/in/jamielg) | [github.com/JamieGrunewald](https://github.com/JamieGrunewald)
@@ -41,7 +46,7 @@ A complete Vigenère cipher break executed in seven steps:
 | Step | Technique | Purpose |
 |------|-----------|---------|
 | 1 | Ciphertext display | Establish the problem |
-| 2 | IOC + Chi-Square | Statistical reconb identify cipher type |
+| 2 | IOC + Chi-Square | Statistical recon — identify cipher type |
 | 3 | IOC column sweep | Determine key length |
 | 4 | Per-column frequency attack | Recover alphabetic key characters |
 | 5 | Word-list disambiguation | Resolve chi-square near-ties |
@@ -72,7 +77,7 @@ The same statistical patterns that expose a repeating cipher key also expose aut
 
 A fair question: if both humans and LLMs write in English, aren't their statistical profiles nearly identical?
 
-Yes. That's exactly what makes it interesting.
+Yes.  That is exactly what makes it interesting.
 
 Gross statistics like letter frequency and Index of Coincidence will look nearly identical between human and LLM output. You won't separate them with the same tools that crack a Vigenère cipher. The signal is finer than that.
 
@@ -82,7 +87,7 @@ But LLMs don't sample from natural English — they sample from a learned approx
 - **Token-level patterns** — characteristic preferences at the subword level that don't match human writing distributions, particularly around punctuation, transition phrases, and hedge language.
 - **Perturbation response** — the most promising signal. Slightly perturb a passage and re-score it; LLM output shows a characteristic pull back toward high-probability tokens that human writing doesn't. This is the core idea behind DetectGPT.
 
-The bridge from cipher analysis isn't the specific metrics, it's the mindset: measure structure, probe the system, follow the gradient signal. The tools change. The approach doesn't.
+The bridge from cipher analysis isn't the specific metrics — it's the mindset: measure structure, probe the system, follow the gradient signal. The tools change. The approach doesn't.
 
 ---
 
